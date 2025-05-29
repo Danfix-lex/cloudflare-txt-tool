@@ -1,36 +1,106 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+# 🌐 Cloudflare TXT Record Creator
 
-First, run the development server:
+A simple web-based tool to create TXT records using the Cloudflare DNS API, built with **Next.js (App Router + TypeScript)** and running on the **Edge runtime**.
+
+---
+
+## 🚀 Features
+
+- Add TXT DNS records to a Cloudflare zone
+- Input fields for:
+  - ✅ Record Name (e.g. `_acme-challenge`)
+  - ✅ Record Value (any string)
+  - ✅ Optional Domain field
+- Real-time feedback: `Loading…`, `Success!`, `Error: [message]`
+- Securely reads `CF_API_TOKEN` and `CF_ZONE_ID` from environment variables
+- Uses [Cloudflare's API](https://developers.cloudflare.com/api/operations/dns-records-for-a-zone-create-dns-record) directly
+- Edge runtime support for speed and scalability
+
+---
+
+## 🛠 Installation & Setup
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# 1. Clone the project
+git clone https://github.com/your-username/cloudflare-txt-tool.git
+cd cloudflare-txt-tool
+
+# 2. Install dependencies
+npm install
+
+# 3. Add your Cloudflare credentials
+touch .env.local
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Inside `.env.local`:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```env
+CF_API_TOKEN=your-cloudflare-api-token
+CF_ZONE_ID=your-cloudflare-zone-id
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Then:
 
-## Learn More
+```bash
+# 4. Run the app
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+Visit: `http://localhost:3000`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📁 Project Structure
 
-## Deploy on Vercel
+```
+src/
+├── app/
+│   ├── api/
+│   │   └── add-txt/
+│   │       └── route.ts      # Edge API route handler
+│   └── page.tsx              # Frontend form UI
+├── public/                   # Static files
+└── styles.css                # Basic custom styles
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## ⏱ Time Spent
+
+Roughly **2 hours** including:
+
+- UI design with plain CSS
+- Cloudflare API integration
+- Edge runtime handler
+- Error handling and testing
+
+---
+
+## 🔁 Trade-offs & Decisions
+
+- Skipped Tailwind to reduce complexity and stay focused on core logic
+- Used Edge runtime for faster deploy and lower latency
+- Added optional domain field but kept initial zone lookup out of scope to stay within time limit
+
+---
+
+## 💡 Bonus: “If I had 1 more hour…”
+
+- Add support for **creating the zone** via Cloudflare's Zone API if it doesn't exist
+- Improve error messages from Cloudflare (e.g. if record already exists)
+- Add basic tests for the API handler
+- Improve UI with Tailwind or Shadcn
+
+---
+
+## 📦 Deployment (Optional)
+
+You can deploy this to [Vercel](https://vercel.com) with zero config:
+
+```bash
+npx vercel
+```
+
+If deployed, include your live URL here:
+> **Live Demo:** https://your-tool.vercel.app
