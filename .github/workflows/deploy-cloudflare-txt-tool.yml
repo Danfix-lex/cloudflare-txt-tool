@@ -1,0 +1,35 @@
+name: Deploy to Cloudflare
+on:
+    push:
+        branches:
+            - main
+    pull_request:
+        branches:
+            - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+      - name: Echo Hello
+        run: echo "Hello, Cloudflare!"
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'npm'
+      - name: Install dependencies
+        run: npm install
+      - name: Run build
+        run: npm run build
+      - name: Publish to Cloudflare Pages
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: cloudflare-txt-tool
+          directory: .next
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+    
